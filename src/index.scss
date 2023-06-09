@@ -100,10 +100,16 @@ header {
   background: #FFFFFF;
   box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
   padding: 30px;
+  display: flex;
+  flex-direction: column;
+  .items{
+    overflow: auto;
+    margin-bottom: 40px;
+  }
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -115,9 +121,10 @@ header {
 .cartItem {
   border: 1px solid #f3f3f3;
   border-radius: 20px;
-  padding:15px;
+  padding: 15px;
   overflow: hidden;
-  .cartItemImg{
+
+  .cartItemImg {
     height: 70px;
     width: 70px;
     background-size: contain;
@@ -125,6 +132,7 @@ header {
     background-repeat: no-repeat;
     margin-right: 20px;
   }
+
   p {
     font-size: 16px;
   }
@@ -137,8 +145,68 @@ header {
     opacity: 0.5;
     transition: all .3s;
     cursor: pointer;
+
     &:hover {
       opacity: 1;
     }
+  }
+}
+
+.cartTotalBlock {
+
+  ul {
+    margin-bottom: 40px;
+
+    li {
+      align-items: flex-end;
+      gap: 7px;
+      margin-bottom: 20px;
+    }
+
+    div {
+      flex: 1;
+      height: 1px;
+      border-bottom: 1px dashed #dfdfdf;
+      position: relative;
+      top: -4px;
+    }
+  }
+
+  .greenButton {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover{
+      img{
+        transform: translateX(5px);
+      }
+    }
+    img {
+      position: absolute;
+      right: 30px;
+      transition: transform .2s ease-in;
+    }
+  }
+}
+
+.greenButton {
+  width: 100%;
+  background: #9DD558;
+  border-radius: 18px;
+  border: none;
+  padding: 18px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background .3s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: lighten(#9DD558, 10%);
+  }
+
+  &:active {
+    background: darken(#9DD558, 10%);
   }
 }
