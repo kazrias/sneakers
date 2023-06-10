@@ -7,6 +7,7 @@
 body {
   font-family: 'Inter', system-ui;
   background-color: #E7F6FF;
+  padding: 0 15px;
 }
 
 * {
@@ -29,42 +30,10 @@ header {
 
 .sneakers {
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   gap: 30px;
 
-  .card {
-    border: 1px solid #f3f3f3;
-    padding: 30px;
-    width: 210px;
-    border-radius: 40px;
-    transition: all .3s;
-
-    &:hover {
-      box-shadow: 0px 20px 35px rgba(0, 0, 0, 0.15);
-      transform: translateY(-5px);
-    }
-
-    h5 {
-      font-weight: 400;
-      font-size: 14px;
-      margin-bottom: 14px;
-    }
-
-    p {
-      opacity: 0.5;
-      font-size: 13px;
-      text-transform: uppercase;
-    }
-
-    b {
-      font-size: 13px;
-    }
-
-    .favorite {
-      position: absolute;
-      cursor: pointer;
-    }
-  }
+  
 }
 
 
@@ -102,7 +71,8 @@ header {
   padding: 30px;
   display: flex;
   flex-direction: column;
-  .items{
+
+  .items {
     overflow: auto;
     margin-bottom: 40px;
   }
@@ -177,11 +147,13 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    &:hover{
-      img{
+
+    &:hover {
+      img {
         transform: translateX(5px);
       }
     }
+
     img {
       position: absolute;
       right: 30px;
