@@ -1,8 +1,8 @@
-function Drawer() {
+function Drawer({ onClose }) {
   return (
-    <div style={{ display: 'none' }} className="overlay">
+    <div className="overlay">
       <div className="drawer">
-        <h2 className="mb-30 d-flex justify-between align-center">Корзина <img className="removeBtn cu-p" src="/img/btn-remove.svg" alt="Remove" /></h2>
+        <h2 className="mb-30 d-flex justify-between align-center">Корзина <img onClick={onClose} className="removeBtn cu-p" src="/img/btn-remove.svg" alt="Close" /></h2>
         <div className="items flex">
           <div className="cartItem d-flex align-center mb-20">
             <div style={{ backgroundImage: 'url(/img/sneakers/1.jpg)' }} className="cartItemImg"></div>

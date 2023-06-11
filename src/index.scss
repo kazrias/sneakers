@@ -26,6 +26,15 @@ body {
 header {
   border-bottom: 1px solid #EAEAEA;
 
+  .headerRight {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    li{
+      display: flex;
+      align-items: center;
+    }
+  }
 }
 
 .sneakers {
@@ -33,7 +42,7 @@ header {
   // justify-content: space-between;
   gap: 30px;
 
-  
+
 }
 
 

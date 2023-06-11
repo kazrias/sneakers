@@ -1,3 +1,4 @@
+import { useState } from "react"
 import Card from "./components/Card/Card"
 import Header from "./components/Header"
 import Drawer from "./components/Drawer"
@@ -9,10 +10,11 @@ const arr = [
 
 ]
 function App() {
+  const [cartOpened, setCartOpened] = useState(false);
   return (
     <div className='wrapper clear'>
-      <Drawer />
-      <Header />
+      {cartOpened && <Drawer onClose={()=>setCartOpened(false)}/>}
+      <Header onClickCart={() => setCartOpened(true)} />
       <div className="content p-40">
         <div className="d-flex mb-40 align-center justify-between">
           <h1>Все кроссовки</h1>
@@ -23,8 +25,14 @@ function App() {
         </div>
         <div className="sneakers">
           {
-            arr.map((obj,i) =>
-              <Card key={i}title={obj.name} price={obj.price} imageUrl={obj.imageUrl} />
+            arr.map((obj, i) =>
+              <Card
+                key={i} title={obj.name}
+                price={obj.price}
+                imageUrl={obj.imageUrl}
+                onClickFavorite={() => console.log('Добавили в закладки')}
+                onClickPlus={() => console.log('Нажали плюс')}
+              />
             )
           }
         </div>
