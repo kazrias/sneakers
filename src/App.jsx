@@ -1,19 +1,34 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Card from "./components/Card/Card"
 import Header from "./components/Header"
 import Drawer from "./components/Drawer"
-const arr = [
-  { name: 'Мужские Кроссовки Nike Blazer Mid Suede', price: 12999, imageUrl: '/img/sneakers/1.jpg' },
-  { name: 'Мужские Кроссовки Nike Air Max 270', price: 16999, imageUrl: '/img/sneakers/2.jpg' },
-  { name: 'Мужские Кроссовки Nike Blazer Mid Suede', price: 8499, imageUrl: '/img/sneakers/3.jpg' },
-  { name: 'Кроссовки Puma X Aka Boku Future Rider', price: 8999, imageUrl: '/img/sneakers/4.jpg' },
-
-]
 function App() {
+  const [items, setItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
+  // 
+  // 
+  // 
+  useEffect(() => {
+    fetch('https://64862735a795d24810b7c1b8.mockapi.io/items')
+      .then(res => res.json())
+      .then(json => setItems(json))
+  }, [])
+  const onAddToCart = (product) => {
+    if (!cartItems.length)
+      setCartItems(prev => [...prev, product])
+    else {
+     
+      for (let item of cartItems) {
+        console.log(item);
+        if (item.name != product.name && item.price != product.price && item.imageUrl != product.imageUrl)
+          setCartItems(prev => [...prev, product])
+      }
+    }
+  }
   return (
     <div className='wrapper clear'>
-      {cartOpened && <Drawer onClose={()=>setCartOpened(false)}/>}
+      {cartOpened && <Drawer cartItems={cartItems} onClose={() => setCartOpened(false)} />}
       <Header onClickCart={() => setCartOpened(true)} />
       <div className="content p-40">
         <div className="d-flex mb-40 align-center justify-between">
@@ -25,13 +40,13 @@ function App() {
         </div>
         <div className="sneakers">
           {
-            arr.map((obj, i) =>
+            items.map((obj, i) =>
               <Card
-                key={i} title={obj.name}
+                key={i} name={obj.name}
                 price={obj.price}
                 imageUrl={obj.imageUrl}
                 onClickFavorite={() => console.log('Добавили в закладки')}
-                onClickPlus={() => console.log('Нажали плюс')}
+                onClickPlus={onAddToCart}
               />
             )
           }
