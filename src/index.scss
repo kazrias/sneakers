@@ -30,7 +30,8 @@ header {
     display: flex;
     gap: 30px;
     align-items: center;
-    li{
+
+    li {
       display: flex;
       align-items: center;
     }
@@ -84,6 +85,46 @@ header {
   .items {
     overflow: auto;
     margin-bottom: 40px;
+  }
+
+  .cartEmpty {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    width: 285px;
+    margin: 0 auto;
+    h4 {
+      margin-top: 21px;
+      margin-bottom: 9px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 16px;
+      text-align: center;
+      opacity: .6;
+      
+      margin-bottom: 40px;
+    }
+
+    .greenButton {
+      &:hover {
+        img {
+          transform: translateX(-5px) rotate(180deg);
+        }
+      }
+
+      img {
+        position: absolute;
+        transform: rotate(180deg);
+        left: 30px;
+        transition: transform .2s ease-in;
+
+      }
+    }
   }
 }
 
@@ -173,6 +214,7 @@ header {
 
 .greenButton {
   width: 100%;
+  position: relative;
   background: #9DD558;
   border-radius: 18px;
   border: none;
