@@ -22,29 +22,37 @@ function App() {
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [cartOpened, setCartOpened] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const onChangeSearchInput = (e) => {
     setSearchValue(e.target.value);
   }
   useEffect(() => {
-    axios.get('https://64862735a795d24810b7c1b8.mockapi.io/items')
-      .then(res => {
-        setItems(res.data)
-      })
-    axios.get('https://64862735a795d24810b7c1b8.mockapi.io/cart')
-      .then(res => {
-        setCartItems(res.data)
-      })
-    axios.get('https://648b171617f1536d65ea54eb.mockapi.io/favorites')
-      .then(res => {
-        setFavoriteItems(res.data)
-      })
+    async function fetchData() {
+      const cartResponse = await axios.get('https://64862735a795d24810b7c1b8.mockapi.io/cart');
+      const favoriteResponse = await axios.get('https://648b171617f1536d65ea54eb.mockapi.io/favorites');
+      const itemsResponse = await axios.get('https://64862735a795d24810b7c1b8.mockapi.io/items');
+      setIsLoading(false);
+      setCartItems(cartResponse.data);
+      setFavoriteItems(favoriteResponse.data);
+      setItems(itemsResponse.data);
+    }
 
+    fetchData()
   }, [])
   const onAddToCart = (product) => {
-    axios.post('https://64862735a795d24810b7c1b8.mockapi.io/cart', product).then(res => setCartItems((prev) => [...prev, res.data]));
+    if (cartItems.find(item => +item.id === +product.id)) {
+      axios.delete(`https://64862735a795d24810b7c1b8.mockapi.io/cart/${product.id}`);
+      setCartItems(prev => prev.filter(item => item.id !== product.id))
+    }
+    else {
+      axios.post('https://64862735a795d24810b7c1b8.mockapi.io/cart', product)
+      setCartItems(prev => [...prev, product]);
+    }
+
+
   }
   const onAddToFavorite = (product) => {
-    if (favoriteItems.find(obj => obj.id === product.id)) {
+    if (favoriteItems.find(obj => obj.id == product.id)) {
       axios.delete(`https://648b171617f1536d65ea54eb.mockapi.io/favorites/${product.id}`)
       setFavoriteItems((prev) => prev.filter(item => item.id !== product.id))
     } else {
@@ -66,10 +74,12 @@ function App() {
           element={
             <Home
               items={items}
+              cartItems={cartItems}
               searchValue={searchValue}
               setSearchValue={setSearchValue}
               onChangeSearchInput={onChangeSearchInput} onAddToFavorite={onAddToFavorite}
               onAddToCart={onAddToCart}
+              isLoading={isLoading}
             />
           }
         ></Route>
