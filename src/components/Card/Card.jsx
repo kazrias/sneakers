@@ -1,6 +1,6 @@
 import styles from './Card.module.scss'
 import ContentLoader from "react-content-loader"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 function Card({ id,
   name,
   price,
@@ -8,13 +8,11 @@ function Card({ id,
   onClickPlus,
   onClickFavorite,
   favorited = false,
-  added,
-  loading = false }) {
-  console.log(loading);
-  const [isAdded, setIsAdded] = useState(added);
+  loading = false,
+  added }) {
+  const [isAdded, setIsAdded] = useState(false);
   const [isFavorite, setIsFavorite] = useState(favorited);
   const handleClickPlus = () => {
-    // if (!isAdded)
     onClickPlus({ id, name, price, imageUrl });
     setIsAdded(!isAdded)
   }
@@ -22,6 +20,9 @@ function Card({ id,
     onClickFavorite({ id, name, price, imageUrl });
     setIsFavorite(!isFavorite);
   }
+  useEffect(() => {
+    setIsAdded(added);
+  }, [added])
   return (
     <div className={styles.card}>
       {
@@ -50,7 +51,7 @@ function Card({ id,
                 <p>Цена:</p>
                 <b>{price} руб.</b>
               </div>
-              <img className={styles.plus} onClick={handleClickPlus} src={`/img/${isAdded ? "added.svg" : "add.svg"}`} alt="plus" />
+              <img className={styles.plus} onClick={() => handleClickPlus()} src={`/img/${isAdded ? "added.svg" : "add.svg"}`} alt="plus" />
             </div></>
       }
 
@@ -58,3 +59,45 @@ function Card({ id,
   )
 }
 export default Card
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

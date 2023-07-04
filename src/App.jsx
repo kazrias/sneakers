@@ -27,17 +27,16 @@ function App() {
     setSearchValue(e.target.value);
   }
   useEffect(() => {
-    async function fetchData() {
-      const cartResponse = await axios.get('https://64862735a795d24810b7c1b8.mockapi.io/cart');
-      const favoriteResponse = await axios.get('https://648b171617f1536d65ea54eb.mockapi.io/favorites');
-      const itemsResponse = await axios.get('https://64862735a795d24810b7c1b8.mockapi.io/items');
-      setIsLoading(false);
-      setCartItems(cartResponse.data);
-      setFavoriteItems(favoriteResponse.data);
-      setItems(itemsResponse.data);
+    async function fetchData(){
+      const cartRes=await axios.get('https://64862735a795d24810b7c1b8.mockapi.io/cart');
+      const favRes=await axios.get('https://648b171617f1536d65ea54eb.mockapi.io/favorites');
+      const itemsRes=await axios.get('https://64862735a795d24810b7c1b8.mockapi.io/items');
+      setIsLoading(false)
+      setCartItems(cartRes.data);
+      setFavoriteItems(favRes.data);
+      setItems(itemsRes.data);
     }
-
-    fetchData()
+    fetchData();
   }, [])
   const onAddToCart = (product) => {
     if (cartItems.find(item => +item.id === +product.id)) {
@@ -77,7 +76,8 @@ function App() {
               cartItems={cartItems}
               searchValue={searchValue}
               setSearchValue={setSearchValue}
-              onChangeSearchInput={onChangeSearchInput} onAddToFavorite={onAddToFavorite}
+              onChangeSearchInput={onChangeSearchInput}
+              onAddToFavorite={onAddToFavorite}
               onAddToCart={onAddToCart}
               isLoading={isLoading}
             />

@@ -9,7 +9,7 @@ function Home({
   isLoading
 }) {
   const renderItems = () => {
-    return (isLoading ? [...Array(8 )] : items.filter(obj => obj.name.toLowerCase().includes(searchValue.toLowerCase())))
+    return (isLoading ? [...Array(8)] : items.filter(obj => obj.name.toLowerCase().includes(searchValue.toLowerCase())))
       .map((item,index) =>
         <Card
           key={index}
