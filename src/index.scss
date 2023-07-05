@@ -95,6 +95,7 @@ header {
     justify-content: center;
     width: 285px;
     margin: 0 auto;
+
     h4 {
       margin-top: 21px;
       margin-bottom: 9px;
@@ -106,11 +107,16 @@ header {
       font-size: 16px;
       text-align: center;
       opacity: .6;
-      
+
       margin-bottom: 40px;
     }
 
     .greenButton {
+
+      &:disabled {
+        background: #bebebe;
+      }
+
       &:hover {
         img {
           transform: translateX(-5px) rotate(180deg);
@@ -213,6 +219,10 @@ header {
 }
 
 .greenButton {
+  &:disabled {
+    background: #bebebe;
+  }
+
   width: 100%;
   position: relative;
   background: #9DD558;
