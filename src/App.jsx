@@ -1,10 +1,11 @@
 import { Router as Routich, Route, Routes } from 'react-router-dom'
-import { useState, useEffect } from "react"
+import { useState, useEffect, createContext } from "react"
 import axios from 'axios';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import Header from "./components/Header"
 import Drawer from "./components/Drawer"
+import AppContext from './context';
 // let arr = [
 //   { id:1,name: 'Мужские Кроссовки Nike Blazer Mid Suede', price: 12999, imageUrl: '/img/sneakers/1.jpg' },
 //   { id:2,name: 'Мужские Кроссовки Nike Air Max 270', price: 22999, imageUrl: '/img/sneakers/2.jpg' },
@@ -16,6 +17,7 @@ import Drawer from "./components/Drawer"
 //   { id:8,name: 'Мужские Кроссовки Nike LeBron XVIII', price: 12999, imageUrl: '/img/sneakers/8.jpg' }
 // ]
 // console.log(JSON.stringify(arr));
+
 function App() {
   const [items, setItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
@@ -27,10 +29,10 @@ function App() {
     setSearchValue(e.target.value);
   }
   useEffect(() => {
-    async function fetchData(){
-      const cartRes=await axios.get('https://64862735a795d24810b7c1b8.mockapi.io/cart');
-      const favRes=await axios.get('https://648b171617f1536d65ea54eb.mockapi.io/favorites');
-      const itemsRes=await axios.get('https://64862735a795d24810b7c1b8.mockapi.io/items');
+    async function fetchData() {
+      const cartRes = await axios.get('https://64862735a795d24810b7c1b8.mockapi.io/cart');
+      const favRes = await axios.get('https://648b171617f1536d65ea54eb.mockapi.io/favorites');
+      const itemsRes = await axios.get('https://64862735a795d24810b7c1b8.mockapi.io/items');
       setIsLoading(false)
       setCartItems(cartRes.data);
       setFavoriteItems(favRes.data);
@@ -62,35 +64,41 @@ function App() {
     axios.delete(`https://64862735a795d24810b7c1b8.mockapi.io/cart/${id}`);
     setCartItems((prev) => prev.filter(item => item.id !== id))
   }
+  const isItemAdded = (id) => {
+    return cartItems.some(obj => Number(obj.id) === Number(id))
+  }
   return (
-    <div className='wrapper clear'>
-      {cartOpened && <Drawer cartItems={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} />}
-      <Header onClickCart={() => setCartOpened(true)} />
-      <Routes>
-        <Route
-          path="/"
-          exact
-          element={
-            <Home
-              items={items}
-              cartItems={cartItems}
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
-              onChangeSearchInput={onChangeSearchInput}
+    <AppContext.Provider value={{ items, cartItems, favoriteItems, isItemAdded, setCartOpened,setCartItems }}>
+      <div className='wrapper clear'>
+        {cartOpened && <Drawer cartItems={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} />}
+        <Header onClickCart={() => setCartOpened(true)} />
+
+        <Routes>
+          <Route
+            path="/"
+            exact
+            element={
+              <Home
+                items={items}
+                cartItems={cartItems}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                onChangeSearchInput={onChangeSearchInput}
+                onAddToFavorite={onAddToFavorite}
+                onAddToCart={onAddToCart}
+                isLoading={isLoading}
+              />
+            }
+          ></Route>
+          <Route path="/favorites" exact element={
+            <Favorites
               onAddToFavorite={onAddToFavorite}
-              onAddToCart={onAddToCart}
-              isLoading={isLoading}
             />
-          }
-        ></Route>
-        <Route path="/favorites" exact element={
-          <Favorites
-            items={favoriteItems}
-            onAddToFavorite={onAddToFavorite}
-          />
-        }></Route>
-      </Routes>
-    </div>
+          }></Route>
+        </Routes>
+
+      </div>
+    </AppContext.Provider>
   )
 }
 

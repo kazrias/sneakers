@@ -1,4 +1,14 @@
+import Info from "./info"
+import AppContext from "../context";
+import { useContext,useState } from "react";
 function Drawer({ cartItems, onClose, onRemove }) {
+  const {setCartItems}=useContext(AppContext)
+  const [isOrderComplete, setIsOrderComplete] = useState(false);
+  const onClickOrder = () => {
+    setIsOrderComplete(true);
+    setCartItems([])
+  }
+
   return (
     <div className="overlay">
       <div className="drawer">
@@ -31,22 +41,15 @@ function Drawer({ cartItems, onClose, onRemove }) {
                 <b>1074 руб. </b>
               </li>
             </ul>
-            <button className="greenButton">
+            <button onClick={onClickOrder} className="greenButton">
               <span>Оформить заказ</span>
               <img src="/img/arrow.svg" alt="Arrow" />
             </button>
           </div>
         </> :
-          <div className="cartEmpty">
-            <img width={120} height={120} src="/img/drawer.png" alt="empty-cart" />
-            <h4>Корзина пустая</h4>
-            <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-            <button onClick={onClose} className="greenButton">
-              <img src="/img/arrow.svg" alt="Arrow" />
-              <span>Вернуться назад</span>
-            </button>
-          </div>
-        }
+          <>
+            <Info img={isOrderComplete?"/img/complete.png":"/img/drawer.png"} title={isOrderComplete?"Заказ Оформлен":"Корзина пустая"} descr={isOrderComplete?"Ваш заказ #18 скоро будет передан курьерской доставке":"Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."} />
+          </>}
 
 
 
